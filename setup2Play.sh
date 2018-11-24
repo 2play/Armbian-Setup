@@ -72,7 +72,7 @@ check_kernel () {
 
         if [[ "${kernel}" != "${refKernel}" ]]; then
             echo "Different kernel detected: $kernel"
-			echo "This script is optimized for: $refKernel"
+	    echo "This script is optimized for: $refKernel"
             unknown_os
         fi
         
@@ -91,7 +91,7 @@ check_drivers () {
         
         if [[ "${drivers}" != "${refDrivers}" ]]; then
             echo "Different drivers detected: $drivers"
-			echo "This script is optimized for: $refDrivers"
+	    echo "This script is optimized for: $refDrivers"
             unknown_os
         fi
         
@@ -153,13 +153,13 @@ install_basis () {
         #sudo dpkg -i --force-overwrite libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         #wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-dev_1.6-1_armhf.deb
         #sudo dpkg -i --force-overwrite libmali-rk-dev_1.6-1_armhf.deb
-		wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
+	wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         sudo dpkg -i libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-dev_1.6-1_armhf.deb
         sudo dpkg -i libmali-rk-dev_1.6-1_armhf.deb
 		rm *.deb
         
-		echo ""
+	echo ""
         echo "################################################################"
         echo "##  Installing libDRM with experimental rockchip API support  ##"
         echo "################################################################"
@@ -215,8 +215,9 @@ install_basis () {
         echo "########################################################"
         echo ""
         git clone --depth=1 https://github.com/RetroPie/RetroPie-Setup.git
-		mkdir -p $HOME/RetroPie/splashscreens	  
-        echo ""
+	mkdir -p $HOME/RetroPie/splashscreens	  
+        
+	echo ""
         echo "####################################"
         echo "##  Basic installation completed.  ##"
         echo "####################################"
@@ -284,7 +285,7 @@ install_optional () {
             echo ""
         fi
 		
-		read -p "Do you want to install additional controller support? (Y/N)" -n 1 -r
+	read -p "Do you want to install additional controller support? (Y/N)" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
