@@ -293,6 +293,8 @@ install_optional () {
             echo "####################"
             echo ""
             sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
+	    #To revert above use below on cli
+	    #sudo sed -i "/defaults.pcm.card 1/c\defaults.pcm.card 0" /usr/share/alsa/alsa.conf
                     
             echo ""
             echo "##  Audio source on HDMI  ##"
@@ -335,7 +337,7 @@ install_optional () {
         then
             echo ""
             echo "#####################################"
-            echo "##  Installing Background Music  ##"
+            echo "##   Installing Background Music   ##"
             echo "#####################################"
             echo ""
             mkdir -p $HOME/RetroPie/roms/music
@@ -343,7 +345,7 @@ install_optional () {
             sudo wget https://raw.githubusercontent.com/2play/Armbian-Setup-for-RetroPie/master/autostart.sh -O /opt/retropie/configs/all/autostart.sh
             sudo wget https://raw.githubusercontent.com/2play/Armbian-Setup-for-RetroPie/master/runcommand-onend.sh -O /opt/retropie/configs/all/runcommand-onend.sh
             sudo wget https://raw.githubusercontent.com/2play/Armbian-Setup-for-RetroPie/master/runcommand-onstart.sh -O /opt/retropie/configs/all/runcommand-onstart.sh
-            sudo chmod +x /opt/retropie/configs/all/*.*
+            sudo chmod +x /opt/retropie/configs/all/*.sh
             echo ""
             echo "##  Background Music ready  ##"
             echo "## You can drop your music files into ~/RetroPie/roms/music"
@@ -356,7 +358,7 @@ install_optional () {
         then
             echo ""
             echo "#####################################"
-            echo "##  Install OMXPLAYER  ##"
+            echo "##        Install OMXPLAYER        ##"
             echo "#####################################"
             echo ""
             wget http://ftp.de.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.2l-1~bpo8+1_armhf.deb
