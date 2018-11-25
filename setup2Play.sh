@@ -122,15 +122,15 @@ install_basis () {
         echo "##  Installing various required packages  ##"
         echo "############################################"
         echo ""
-        sudo apt install -y libtool cmake autoconf automake libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6 xutils-dev libsdl2-dev libffi-dev libexpat1-dev libxml2-dev libusb-1.0-0-dev libavcodec-dev libavformat-dev libavdevice-dev mpv
-																					 
+        sudo apt install -y libtool cmake autoconf automake libxml2-dev libusb-1.0-0-dev libavcodec-dev \
+                            libavformat-dev libavdevice-dev libdrm-dev pkg-config mpv
 		
-			
-												
-												
-												
-			   
-																									   
+		echo ""
+        echo "#################################"
+        echo "##  Installing specific Deps   ##"
+        echo "#################################"
+        echo ""
+		sudo apt install -y libgl1-mesa-dev libxcursor-dev libxi-dev libxinerama-dev libxrandr-dev libxss-dev
 		
 	echo ""
         echo "#######################################################################################################"
@@ -152,8 +152,8 @@ install_basis () {
         echo "##  Installing requirements for GPU driver  ##"
         echo "##############################################"
         echo ""
-        sudo apt install -y libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6
-																						  
+        sudo apt install -y libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 \
+                            libxdmcp6 libgles1-mesa-dev libgles2-mesa-dev libegl1-mesa-dev
         echo ""
         echo "#######################################"
         echo "##  Installing GPU userspace driver  ##"
@@ -370,12 +370,12 @@ install_optional () {
             echo "##  OMXPLAYER installed  ##"
             echo ""
         fi
-																	
-			 
-						   
-			
-				   
-														
+		read -p "Do you want to create a symlink from pi to this user? (Y/N) (NOT Needed if you use pi user)" -n 1 -r
+        echo	
+		if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo ""
+            echo "#####################################"
 												  
 														
 				   
@@ -386,12 +386,12 @@ install_optional () {
 												   
 				   
 		  
-		read -p "Do you want to create a symlink from pi to this user? (Y/N) (NOT Needed if you use pi user)" -n 1 -r
-        echo	
-		if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            echo ""
-            echo "#####################################"
+																			   
+			 
+						   
+			
+				   
+														
             echo "##  Creating symlink  ##"
             echo "#####################################"
             echo ""
