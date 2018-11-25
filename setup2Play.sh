@@ -2,7 +2,7 @@
 
 home="$(eval echo ~$user)"
 
-#This Script is optimized for the following versions (If to run on different Kernel you need to update some entries acordingly):
+#This Script is optimized for the following versions (On different Kernel you need to update some entries acordingly):
 refDrivers="r18p0-01rel0 (UK version 10.6)"
 refKernel="4.4.156-rockchip"
 refOS="debian"
@@ -46,8 +46,6 @@ detect_os ()
   # remove whitespace from OS and dist name
   os="${os// /}"
   dist="${dist// /}"
-
-											   
 }
 
 check_os () {
@@ -68,11 +66,9 @@ check_kernel () {
             unknown_os
         fi
         
-
-
         if [[ "${kernel}" != "${refKernel}" ]]; then
             echo "Different kernel detected: $kernel"
-	    echo "This script is optimized for: $refKernel"
+			echo "This script is optimized for: $refKernel"
             unknown_os
         fi
         
@@ -91,7 +87,7 @@ check_drivers () {
         
         if [[ "${drivers}" != "${refDrivers}" ]]; then
             echo "Different drivers detected: $drivers"
-	    echo "This script is optimized for: $refDrivers"
+			echo "This script is optimized for: $refDrivers"
             unknown_os
         fi
         
@@ -118,8 +114,8 @@ install_basis () {
         echo "##  Updating system  ##"
         echo "#######################"
         echo ""
-        sudo apt update 
-        sudo apt upgrade -y
+        sudo apt update
+		sudo apt upgrade -y
         
         echo ""
         echo "############################################"
@@ -127,6 +123,14 @@ install_basis () {
         echo "############################################"
         echo ""
         sudo apt install -y libtool cmake autoconf automake libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6 xutils-dev libsdl2-dev libffi-dev libexpat1-dev libxml2-dev libusb-1.0-0-dev libavcodec-dev libavformat-dev libavdevice-dev mpv
+																					 
+		
+			
+												
+												
+												
+			   
+																									   
 		
 	echo ""
         echo "#######################################################################################################"
@@ -136,13 +140,20 @@ install_basis () {
 	echo "#######################################################################################################"
         echo ""
         sudo apt install -y linux-headers-rockchip
+												
+												
+			   
+		#wget https://github.com/2play/Armbian-Tinker-Setup/raw/master/linux-headers-rockchip_5.60_armhf.deb
+        #sudo dpkg -i linux-headers-rockchip_5.60_armhf.deb
+				
 		
-        echo ""
+		echo ""
         echo "##############################################"
         echo "##  Installing requirements for GPU driver  ##"
         echo "##############################################"
         echo ""
         sudo apt install -y libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6
+																						  
         echo ""
         echo "#######################################"
         echo "##  Installing GPU userspace driver  ##"
@@ -153,7 +164,7 @@ install_basis () {
         #sudo dpkg -i --force-overwrite libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         #wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-dev_1.6-1_armhf.deb
         #sudo dpkg -i --force-overwrite libmali-rk-dev_1.6-1_armhf.deb
-	wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
+		wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         sudo dpkg -i libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-dev_1.6-1_armhf.deb
         sudo dpkg -i libmali-rk-dev_1.6-1_armhf.deb
@@ -177,7 +188,13 @@ install_basis () {
         echo "##  Installing libmali  ##"
         echo "##########################"
         echo ""
-        git clone --branch rockchip https://github.com/rockchip-linux/libmali.git
+		git clone --branch rockchip-header https://github.com/2play/libmali.git
+        cd libmali
+        cmake CMakeLists.txt
+        make -j4 -C ~/libmali && sudo make install
+        cd ~
+        rm -rf libmali
+        git clone --branch rockchip https://github.com/2play/libmali.git
         cd libmali
         cmake CMakeLists.txt
         make -j4 -C ~/libmali && sudo make install
@@ -202,7 +219,7 @@ install_basis () {
         echo "##########################"
         echo ""
         sudo apt install libffi-dev libexpat1-dev
-        git clone git://anongit.freedesktop.org/wayland/wayland
+        git clone https://gitlab.freedesktop.org/wayland/wayland
         cd wayland
         ./autogen.sh --disable-documentation
         make -j4 && sudo make install
@@ -215,9 +232,9 @@ install_basis () {
         echo "########################################################"
         echo ""
         git clone --depth=1 https://github.com/RetroPie/RetroPie-Setup.git
-	mkdir -p $HOME/RetroPie/splashscreens	  
+		mkdir -p $HOME/RetroPie/splashscreens	  
         
-	echo ""
+		echo ""
         echo "####################################"
         echo "##  Basic installation completed.  ##"
         echo "####################################"
@@ -236,7 +253,7 @@ install_optional () {
         echo "##  Optional installation  ##"
         echo "##############################"
         echo ""
-        read -p "Do you want to install bluetooth? (Y/N)... If yes please check readme afterwards" -n 1 -r
+        read -p "Do you want to install bluetooth? (Y/N)" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
@@ -245,9 +262,21 @@ install_optional () {
             echo "##  Installing bluetooth  ##"
             echo "############################"
             echo ""
-            sudo apt install bluetooth
-			sudo rfkill unblock all
-			sudo systemctl restart tinker-bluetooth.service
+            sudo apt install -y bluetooth
+            sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
+            sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
+
+            echo ""
+            echo "###############################"
+            echo "##  Launch bluetooth service ##"
+            echo "###############################"
+            echo ""
+            sudo systemctl stop tinker-bluetooth-restart
+            sudo systemctl disable tinker-bluetooth-restart
+            sudo rm /lib/systemd/system/tinker-bluetooth-restart.service
+            sudo systemctl daemon-reload
+            sudo systemctl stop tinker-bluetooth
+            sudo systemctl start tinker-bluetooth
                 
             echo ""
             echo "##  Bluetooth installed ##"
@@ -285,7 +314,7 @@ install_optional () {
             echo ""
         fi
 		
-	read -p "Do you want to install additional controller support? (Y/N)" -n 1 -r
+		read -p "Do you want to install additional controller support? (Y/N)" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
@@ -341,6 +370,22 @@ install_optional () {
             echo "##  OMXPLAYER installed  ##"
             echo ""
         fi
+																	
+			 
+						   
+			
+				   
+														
+												  
+														
+				   
+										
+																																								
+																					
+				   
+												   
+				   
+		  
 		read -p "Do you want to create a symlink from pi to this user? (Y/N) (NOT Needed if you use pi user)" -n 1 -r
         echo	
 		if [[ $REPLY =~ ^[Yy]$ ]]
@@ -362,10 +407,13 @@ install_optional () {
         echo "##  Installation completed  ##"
         echo "##############################"
         echo ""
-        echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' 
-		- Instal samba shares (Click again to enable after samba install)
+        echo "
 		- Copy your favorite splashscreen mp4 file in the spalshcreen samba directory.
-		- Install core packages
+		- Reboot System 
+		- Run 'sudo ~/RetroPie-Setup/retropie_setup.sh'
+		- Instal samba shares (Click again to enable after samba install)
+		- Install core packages (From Source)
+		- Go to configuration/tools -> boot options -> And set emulationstation to start at boot
 		- Reboot System. Then you can install basic package or your packages from RetroPie-Setup."
 fi
 }
